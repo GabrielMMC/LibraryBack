@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -70,7 +75,6 @@ return [
         //     'table' => 'users',
         // ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

@@ -12,14 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            // $table->uuid('id')->primary()->default(new Expression('gen_random_uuid()'));
+        Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('zip_code');
+            $table->string('state');
+            $table->string('city');
+            $table->string('ngbh');
+            $table->string('street');
+            $table->float('number');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user_addresses');
     }
 };
