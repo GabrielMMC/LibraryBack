@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +38,20 @@ Route::group([
     Route::get("/read/{id}", [UserController::class, "get_user"]);
     Route::put("/update", [UserController::class, "update_user"]);
     Route::post("/delete/{id}", [UserController::class, "delete_user"]);
+})->middleware("auth:api");
+
+Route::group([
+    "prefix" => "books"
+], function () {
+    Route::get("/", [BookController::class, "list"]);
+    Route::post("/create", [BookController::class, "store"]);
+    Route::get("/get/{id}", [BookController::class, "get"]);
+    Route::put("/update", [BookController::class, "update"]);
+    Route::post("/delete/{id}", [BookController::class, "delete"]);
+})->middleware("auth:api");
+
+Route::group([
+    "prefix" => "genders"
+], function () {
+    Route::get("/", [GenderController::class, "list"]);
 })->middleware("auth:api");
