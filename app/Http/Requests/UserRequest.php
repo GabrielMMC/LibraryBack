@@ -60,7 +60,12 @@ class UserRequest extends FormRequest
                     'password' => 'required|string|min:6|max:100',
                     'document' => 'required|string',
                     'phone' => 'required|string',
-                    'zip_code' => 'required|string',
+                    'zip_code' => 'required',
+                    'city' => 'required',
+                    'state' => 'required',
+                    'number' => 'required',
+                    'nbhd' => 'required',
+                    'street' => 'required',
                 ];
                 break;
             case 'update_user':

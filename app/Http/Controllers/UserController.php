@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\UserAddress;
 use App\Models\UserData;
 use Exception;
 use Illuminate\Http\Request;
@@ -73,14 +74,16 @@ class UserController extends Controller
 
     public function store_user(UserRequest $request)
     {
-        $data = $request->validated();
-
         try {
+            $data = $request->validated();
+
             $user = new User();
             $user->fill($data)->fill(['password' => bcrypt($data['password'])])->save();
 
-            // return $user;
             $user_data = new UserData();
+            $user_data->fill($data)->fill(['user_id' => $user->id]);
+
+            $user_data = new UserAddress();
             $user_data->fill($data)->fill(['user_id' => $user->id]);
 
             // if (isset($request->file('file'))) {
@@ -92,7 +95,7 @@ class UserController extends Controller
             $user_data->save();
 
             return response()->json(['status' => true]);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             return response()->json(['status' => false, 'error' => $ex,]);
         }
     }

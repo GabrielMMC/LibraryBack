@@ -57,7 +57,7 @@ class BookController extends Controller
                         $q->where('gender_id', '=', $request->gender);
                     }
                 }
-            })->paginate(10);
+            })->paginate($request->sizeData);
 
             return response()->json([
                 'books' => BookResource::collection($books),
@@ -68,9 +68,9 @@ class BookController extends Controller
                     'total_pages' => $books->total(),
                     'per_page' => $books->perPage(),
                 ],
-            ]);
-        } catch (Exception $ex) {
-            return response()->json(['status' => false, 'message' => 'Erro ao listar livros!']);
+            ], 200);
+        } catch (\Exception $ex) {
+            return response()->json(['status' => false, 'message' => 'Erro ao listar livros!'], 500);
         }
     }
 
