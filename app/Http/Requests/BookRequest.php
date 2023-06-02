@@ -39,7 +39,7 @@ class BookRequest extends FormRequest
                     'gender_id' => 'required',
                     'writer' => 'required',
                     'pages' => 'required',
-                    'thumb' => 'required',
+                    'thumb' => 'sometimes',
                 ];
                 break;
 

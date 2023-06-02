@@ -81,8 +81,9 @@ class BookController extends Controller
     {
         try {
             $book = Book::findOrFail($id);
+            $genders = Gender::get();
 
-            return response()->json(['status' => true, 'book' => $book]);
+            return response()->json(['status' => true, 'book' => $book, 'genders' => $genders]);
         } catch (Exception $ex) {
             return response()->json(['status' => false, 'message' => 'Erro ao carregar livro!']);
         }
@@ -91,12 +92,22 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(BookRequest $request)
     {
         $data = $request->validated();
         try {
             $book = Book::findOrFail($data['id']);
-            $book->fill($data)->save();
+            $old_thumb = $book->thumb;
+            $book->fill($data);
+
+            if (!isset($data['thumb'])) {
+                $book->thumb = $old_thumb;
+            } else {
+                $document = $request->file('thumb');
+                $name = uniqid('cover_') . '.' . $document->getClientOriginalExtension();
+                $book->thumb = $document->storeAs('book_covers', $name, ['disk' => 'public']);
+            }
+            $book->save();
 
             return response()->json(['status' => true, 'message' => 'Livro alterado com sucesso!']);
         } catch (Exception $ex) {

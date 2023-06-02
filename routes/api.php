@@ -45,9 +45,9 @@ Route::group([
 ], function () {
     Route::get("/", [BookController::class, "list"]);
     Route::post("/create", [BookController::class, "store"]);
-    Route::get("/get/{id}", [BookController::class, "get"]);
-    Route::put("/update", [BookController::class, "update"]);
-    Route::post("/delete/{id}", [BookController::class, "delete"]);
+    Route::get("/edit/{id}", [BookController::class, "get"]);
+    Route::post("/update", [BookController::class, "update"]);
+    Route::delete("/delete/{id}", [BookController::class, "delete"]);
 })->middleware("auth:api");
 
 Route::group([
